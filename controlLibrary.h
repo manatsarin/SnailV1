@@ -339,7 +339,7 @@ void backToLine() {
     digitalWrite(F_L, 0); digitalWrite(B_L, 1); analogWrite(sp_L, 50); // ล้อซ้ายถอยหลัง
     digitalWrite(F_R, 0); digitalWrite(B_R, 1); analogWrite(sp_R, 50); // ล้อขวาถอยหลัง (ถอยตรง)
     ch = getSensor();
-    // ch == "11100000" || ch == "00011111" || ch == "11111111" (ตรวจพบเส้น)
+    // ch == "11110000" || ch == "00001111" || ch == "11111111" (ตรวจพบเส้น)
     if (ch == "11110000" || ch == "00001111" || ch == "11111111") {
       break;
     }
