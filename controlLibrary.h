@@ -229,10 +229,8 @@ int countGrid(int n){
  * @brief ฟังก์ชันหยุดหุ่นยนต์
  */
 void stopRobot() {
-  // โค้ดถูกปิดบัง คาดว่าเป็น:
-  digitalWrite(F_L, 0); digitalWrite(B_L, 0);
-  digitalWrite(F_R, 0); digitalWrite(B_R, 0);
-  // หรือ analogWrite(sp_L, 0); analogWrite(sp_R, 0);
+  digitalWrite(F_L, 1); digitalWrite(B_L, 1);
+  digitalWrite(F_R, 1); digitalWrite(B_R, 1);
   sp = 50; // กำหนดความเร็วเริ่มต้นกลับไปที่ 50
 }
 
@@ -240,22 +238,19 @@ void stopRobot() {
  * @brief ฟังก์ชันเพิ่มความเร็วหุ่นยนต์
  */
 void upSpeed() {
-  // โค้ดถูกปิดบัง
-  // คาดว่าเป็นการเพิ่มค่า sp ขึ้นเรื่อยๆ จนถึง maxSp
-  // if (millis() - tUpSp >= 100) {
-  //    sp += 1;
-  //    tUpSp = millis();
-  // }
-  // if (sp > maxSp) {sp = maxSp;}
+  if (millis() - tUpSp >= 10) {
+     sp += 2;
+     tUpSp = millis();
+  }
+  if (sp > maxSp) {sp = maxSp;}
 }
 
 /**
  * @brief ฟังก์ชันเดินหน้า
  */
 void moveFor() {
-  // โค้ดถูกปิดบัง คาดว่าเป็น:
-  // digitalWrite(F_L, 1); digitalWrite(B_L, 0); analogWrite(sp_L, sp);
-  // digitalWrite(F_R, 1); digitalWrite(B_R, 0); analogWrite(sp_R, sp);
+  digitalWrite(F_L, 1); digitalWrite(B_L, 0); analogWrite(sp_L, sp);
+  digitalWrite(F_R, 1); digitalWrite(B_R, 0); analogWrite(sp_R, sp);
 }
 
 /**
@@ -298,46 +293,49 @@ void turnLeft90() {
  * @brief ฟังก์ชันเลี้ยวขวา 180 องศา
  */
 void turnRight180() {
-  // โค้ดถูกปิดบัง คาดว่าเป็นการเรียก turnRight90() สองครั้ง
-  // turnRight90();
-  // string ch;
-  // while(true) {
-  //   ch = getSensor();
-  //   // ตรวจพบเส้น
-  //   if(ch == "11000000" || ch == "10000000" || ch == "01100000") {
-  //     break;
-  //   }
-  // }
-  // turnRight90();
+  // การเลี้ยว 180 องศา คือการเรียกใช้ฟังก์ชันเลี้ยว 90 องศา สองครั้ง
+  //
+  // ฟังก์ชัน turnRight90() ไม่ได้หมายถึง "หมุนตัวเป็นเวลา X วินาที" แต่หมายถึง "หมุนตัวไปทางขวาเรื่อยๆ จนกว่า 
+  // จะเจอเส้นในตำแหน่ง 90 องศา"
+  // เมื่อฟังก์ชัน turnRight90() ทำงานเสร็จสิ้น หุ่นยนต์จะอยู่ในตำแหน่งที่เจอเส้นที่มุม 90 องศาพอดี
+  // 
+  // เราไม่จำเป็นต้องมีการตรวจสอบเส้น (getSensor()) ระหว่างการเลี้ยวทั้งสองครั้ง เพราะฟังก์ชัน turnRight90() 
+  // ได้จัดการเรื่องการหาเส้นให้เราเรียบร้อยแล้วในแต่ละขั้นตอน
+  turnRight90(); // เลี้ยว 90 องศาครั้งแรก
+  delay(50);    // หน่วงเวลาเล็กน้อยเพื่อให้หุ่นยนต์นิ่ง
+  turnRight90(); // เลี้ยว 90 องศาครั้งที่สอง
 }
 
 /**
  * @brief ฟังก์ชันเลี้ยวซ้าย 180 องศา
  */
 void turnLeft180() {
-  // คล้ายกับ turnRight180() แต่เป็นการเรียก turnLeft90()
+  // การเลี้ยว 180 องศาที่ถูกต้องคือการเลี้ยว 90 องศาสองครั้ง
+  // เราไม่จำเป็นต้องมีการตรวจสอบเส้น (getSensor()) ระหว่างการเลี้ยวทั้งสองครั้ง เพราะฟังก์ชัน turnRight90() 
+  // ได้จัดการเรื่องการหาเส้นให้เราเรียบร้อยแล้วในแต่ละขั้นตอน
+  turnLeft90(); // เลี้ยว 90 องศาครั้งแรก
+  delay(50);    // หน่วงเวลาเล็กน้อยเพื่อให้หุ่นยนต์นิ่ง
+  turnLeft90(); // เลี้ยว 90 องศาครั้งที่สอง
 }
 
 /**
  * @brief ฟังก์ชันหยิบของ
  */
 void keepup_object() {
-  // โค้ดถูกปิดบัง คาดว่าเป็น:
-  // servo_x.write(60); // หนีบแขน
-  // delay(500);
-  // servo_y.write(90); // ยกแขนขึ้น
-  // delay(500);
+  servo_x.write(65); // หนีบแขน
+  delay(500);
+  servo_y.write(90); // ยกแขนขึ้น
+  delay(500);
 }
 
 /**
  * @brief ฟังก์ชันวางของ
  */
 void put_object() {
-  // โค้ดถูกปิดบัง คาดว่าเป็น:
-  // servo_y.write(105); // ยกแขนลง
-  // delay(500);
-  // servo_x.write(140); // คลายแขน
-  // delay(500);
+  servo_y.write(105); // ยกแขนลง
+  delay(500);
+  servo_x.write(149); // คลายแขน
+  delay(500);
 }
 
 /**
@@ -351,7 +349,7 @@ void backToLine() {
     digitalWrite(F_R, 0); digitalWrite(B_R, 1); analogWrite(sp_R, 50); // ล้อขวาถอยหลัง (ถอยตรง)
     ch = getSensor();
     // ch == "11100000" || ch == "00011111" || ch == "11111111" (ตรวจพบเส้น)
-    if (ch == "11100000" || ch == "00011111" || ch == "11111111") {
+    if (ch == "11110000" || ch == "00001111" || ch == "11111111") {
       break;
     }
   }
